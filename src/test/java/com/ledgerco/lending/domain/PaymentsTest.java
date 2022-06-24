@@ -48,4 +48,40 @@ class PaymentsTest {
         }
     }
 
+    @Nested
+    class PaymentsCheckPaidAmountTest {
+
+        @Test
+        void shouldReturnAmountPaidThroughEmi() {
+            Payments payments = new Payments(50);
+
+            int amountPaid = payments.amountPaid(5);
+
+            assertThat(amountPaid).isEqualTo(250);
+        }
+
+        @Test
+        void shouldIncludePrepayments() {
+            Payment payment = newPayment().withAmount(100).withPaidAfter(2).get();
+
+            Payments payments = new Payments(50);
+            payments.add(payment);
+
+            int amountPaid = payments.amountPaid(5);
+
+            assertThat(amountPaid).isEqualTo(350);
+        }
+
+        @Test
+        void shouldNotIncludePrepayments() {
+            Payment payment = newPayment().withAmount(100).withPaidAfter(7).get();
+
+            Payments payments = new Payments(50);
+            payments.add(payment);
+
+            int amountPaid = payments.amountPaid(5);
+
+            assertThat(amountPaid).isEqualTo(250);
+        }
+    }
 }

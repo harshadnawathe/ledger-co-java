@@ -12,4 +12,13 @@ public class Payments extends ArrayList<Payment> {
     public int getEmi() {
         return emi;
     }
+
+    public int amountPaid(int monthNo) {
+        int paymentsThroughEmi = monthNo * emi;
+        int paymentsMade = this.stream()
+                .filter( (it) -> it.getPaidAfter() <= monthNo)
+                .map(Payment::getAmount)
+                .reduce(0, Integer::sum);
+        return paymentsThroughEmi + paymentsMade;
+    }
 }
