@@ -20,7 +20,7 @@ Internally both the scripts run the following commands
 
  ```
  manifest {
-        attributes 'Main-Class' : 'com.example.geektrust.Main' //Change this to the main class of your program which will be executed
+        attributes 'Main-Class' : 'com.ledgerco.lending.app.Main' //Change this to the main class of your program which will be executed
     }
 ```
 in the build.gradle if your main class has changed.
