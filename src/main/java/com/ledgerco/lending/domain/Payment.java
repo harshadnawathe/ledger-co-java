@@ -16,4 +16,7 @@ public class Payment {
     public int getPaidAfter() {
         return paidAfter;
     }
+    public boolean isApplicable(int month) {
+        return month >= paidAfter;
+    }
 }

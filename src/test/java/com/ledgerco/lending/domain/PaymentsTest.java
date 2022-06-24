@@ -61,11 +61,11 @@ class PaymentsTest {
         }
 
         @Test
-        void shouldIncludePrepayments() {
-            Payment payment = newPayment().withAmount(100).withPaidAfter(2).get();
+        void shouldIncludePrepaymentsWhenApplicable() {
+            Payment paymentApplicable = newPayment().withAmount(100).withPaidAfter(2).get();
 
             Payments payments = new Payments(50);
-            payments.add(payment);
+            payments.add(paymentApplicable);
 
             int amountPaid = payments.amountPaid(5);
 
@@ -73,11 +73,11 @@ class PaymentsTest {
         }
 
         @Test
-        void shouldNotIncludePrepayments() {
-            Payment payment = newPayment().withAmount(100).withPaidAfter(7).get();
+        void shouldNotIncludePrepaymentsWhenNotApplicable() {
+            Payment paymentNotApplicable = newPayment().withAmount(100).withPaidAfter(7).get();
 
             Payments payments = new Payments(50);
-            payments.add(payment);
+            payments.add(paymentNotApplicable);
 
             int amountPaid = payments.amountPaid(5);
 
