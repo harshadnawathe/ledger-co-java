@@ -15,11 +15,20 @@ public class LoanTest {
 
         @Test
         void shouldContainTheGivenBankName() {
-            Loan loan = new Loan("MBI");
+            Loan loan = new Loan("MBI", "Harry");
 
             String bank = loan.getBank();
 
             assertThat(bank).isEqualTo("MBI");
+        }
+
+        @Test
+        void shouldContainTheGivenCustomerName() {
+            Loan loan = new Loan("MBI", "Harry");
+
+            String customer = loan.getCustomer();
+
+            assertThat(customer).isEqualTo("Harry");
         }
     }
 }
