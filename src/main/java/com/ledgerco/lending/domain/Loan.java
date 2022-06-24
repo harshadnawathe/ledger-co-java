@@ -4,11 +4,13 @@ public class Loan {
     private final String bank;
     private final String customer;
     private final int principal;
+    private final int periodInYears;
 
-    public Loan(String bank, String customer, int principal) {
+    public Loan(String bank, String customer, int principal, int periodInYears) {
         this.bank = bank;
         this.customer = customer;
         this.principal = principal;
+        this.periodInYears = periodInYears;
     }
 
     public String getBank() {
@@ -21,5 +23,9 @@ public class Loan {
 
     public int getPrincipal() {
         return principal;
+    }
+
+    public int getPeriodInYears() {
+        return periodInYears;
     }
 }

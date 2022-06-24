@@ -40,5 +40,15 @@ public class LoanTest {
 
             assertThat(principal).isEqualTo(2000);
         }
+
+        @Test
+        void shouldContainTheGivenLoanPeriodInYears() {
+            Loan loan = newLoan().withPeriodInYears(2).get();
+
+            int periodInYears = loan.getPeriodInYears();
+
+            assertThat(periodInYears).isEqualTo(2);
+        }
+
     }
 }
