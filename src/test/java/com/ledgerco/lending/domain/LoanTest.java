@@ -31,5 +31,14 @@ public class LoanTest {
 
             assertThat(customer).isEqualTo("Harry");
         }
+
+        @Test
+        void shouldContainTheGivenPrincipleAmount() {
+            Loan loan = newLoan().withPrincipal(2000).get();
+
+            int principal = loan.getPrincipal();
+
+            assertThat(principal).isEqualTo(2000);
+        }
     }
 }
