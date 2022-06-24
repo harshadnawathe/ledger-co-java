@@ -10,6 +10,7 @@ public class LoanBuilder {
     private String customer = RandomStringUtils.randomAlphanumeric(1, 16);
     private int principal = RandomUtils.nextInt(1, 100000000);
     private int periodInYears = RandomUtils.nextInt(1, 25);
+    private int loanRate = RandomUtils.nextInt(1,15);
 
 
     public static LoanBuilder newLoan() {
@@ -17,7 +18,7 @@ public class LoanBuilder {
     }
 
     public Loan get() {
-        return new Loan(bank, customer, principal, periodInYears);
+        return new Loan(bank, customer, principal, periodInYears, loanRate);
     }
 
     public LoanBuilder withBank(String bank) {
@@ -37,6 +38,11 @@ public class LoanBuilder {
 
     public LoanBuilder withPeriodInYears(int periodInYears) {
         this.periodInYears = periodInYears;
+        return this;
+    }
+
+    public LoanBuilder withLoanRate(int loanRate) {
+        this.loanRate = loanRate;
         return this;
     }
 }

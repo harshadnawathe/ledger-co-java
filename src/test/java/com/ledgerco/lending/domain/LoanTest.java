@@ -50,5 +50,13 @@ public class LoanTest {
             assertThat(periodInYears).isEqualTo(2);
         }
 
+        @Test
+        void shouldContainTheGivenLoanRate() {
+            Loan loan = newLoan().withLoanRate(2).get();
+
+            int loanRate = loan.getLoanRate();
+
+            assertThat(loanRate).isEqualTo(2);
+        }
     }
 }
