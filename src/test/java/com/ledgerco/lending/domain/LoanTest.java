@@ -93,5 +93,31 @@ public class LoanTest {
         }
     }
 
+    @Nested
+    class EmiCountCalculationTest {
 
+        @Test
+        void shouldReturnNumberOfEmiRemaining() {
+            Loan loan = newLoan().withPrincipal(2400)
+                    .withPeriodInYears(2)
+                    .withLoanRate(2)
+                    .get();
+
+            int numOfEmi = loan.numberOfEmi(2496);
+
+            assertThat(numOfEmi).isEqualTo(24);
+        }
+
+        @Test
+        void shouldRoundUpTheNumberOfEmiRemainingToNearestInteger() {
+            Loan loan = newLoan().withPrincipal(2000)
+                    .withPeriodInYears(2)
+                    .withLoanRate(2)
+                    .get();
+
+            int numberOfEmi = loan.numberOfEmi(1036);
+
+            assertThat(numberOfEmi).isEqualTo(12);
+        }
+    }
 }

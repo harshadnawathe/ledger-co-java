@@ -38,4 +38,8 @@ public class Loan {
     private int periodInMonths() {
         return periodInYears * 12;
     }
+
+    public int numberOfEmi(double amountRemaining) {
+        return (int) Math.ceil(amountRemaining / emi());
+    }
 }
