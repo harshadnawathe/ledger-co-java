@@ -15,24 +15,6 @@ public class LoanTest {
     public class LoanConstructorTest {
 
         @Test
-        void shouldContainTheGivenBankName() {
-            Loan loan = newLoan().withBank("MBI").get();
-
-            String bank = loan.getBank();
-
-            assertThat(bank).isEqualTo("MBI");
-        }
-
-        @Test
-        void shouldContainTheGivenCustomerName() {
-            Loan loan = newLoan().withCustomer("Harry").get();
-
-            String customer = loan.getCustomer();
-
-            assertThat(customer).isEqualTo("Harry");
-        }
-
-        @Test
         void shouldContainTheGivenPrincipleAmount() {
             Loan loan = newLoan().withPrincipal(2000).get();
 
