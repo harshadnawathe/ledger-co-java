@@ -22,4 +22,20 @@ public class Loan {
     public int getLoanRate() {
         return loanRate;
     }
+
+    public double interest() {
+        return (principal * periodInYears * loanRate) / 100.0;
+    }
+
+    public double totalAmount() {
+        return principal + interest();
+    }
+
+    public int emi() {
+        return (int) Math.ceil(totalAmount() / periodInMonths());
+    }
+
+    private int periodInMonths() {
+        return periodInYears * 12;
+    }
 }

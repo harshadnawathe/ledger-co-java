@@ -41,4 +41,57 @@ public class LoanTest {
             assertThat(loanRate).isEqualTo(2);
         }
     }
+
+    @Test
+    void shouldCalculateTheInterest() {
+        Loan loan = newLoan().withPrincipal(2000)
+                .withPeriodInYears(2)
+                .withLoanRate(2)
+                .get();
+
+        double interest = loan.interest();
+
+        assertThat(interest).isEqualTo(80.0);
+    }
+
+    @Test
+    void shouldCalculateTheTotalAmount() {
+        Loan loan = newLoan().withPrincipal(2000)
+                .withPeriodInYears(2)
+                .withLoanRate(2)
+                .get();
+
+        double totalAmount = loan.totalAmount();
+
+        assertThat(totalAmount).isEqualTo(2080.0);
+    }
+
+    @Nested
+    class EmiCalculationTest {
+        @Test
+        void shouldCalculateTheEmi() {
+            Loan loan = newLoan().withPrincipal(2400)
+                    .withPeriodInYears(2)
+                    .withLoanRate(2)
+                    .get();
+
+            int emi = loan.emi();
+
+            assertThat(emi).isEqualTo(104);
+        }
+
+        @Test
+        void shouldRoundUpTheEmiToTheNearestInteger() {
+            Loan loan = newLoan().withPrincipal(2000)
+                    .withPeriodInYears(2)
+                    .withLoanRate(2)
+                    .get();
+
+            int emi = loan.emi();
+
+            assertThat(emi).isEqualTo(87);
+        }
+    }
+
+
 }
