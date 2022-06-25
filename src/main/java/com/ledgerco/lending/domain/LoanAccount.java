@@ -29,4 +29,8 @@ public class LoanAccount {
     public Payments getPayments() {
         return payments;
     }
+
+    public void addLumpSum(Payment payment) {
+        payments.add(payment);
+    }
 }

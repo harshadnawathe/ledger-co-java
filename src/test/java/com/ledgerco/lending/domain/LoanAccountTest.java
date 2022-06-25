@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.ledgerco.lending.domain.util.LoanAccountBuilder.newLoanAccount;
 import static com.ledgerco.lending.domain.util.LoanBuilder.newLoan;
+import static com.ledgerco.lending.domain.util.PaymentBuilder.newPayment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("a loanAccount object")
@@ -61,5 +62,15 @@ class LoanAccountTest {
 
             assertThat(payments).isEmpty();
         }
+    }
+
+    @Test
+    void shouldAddLumpSumPaymentToPayments() {
+        LoanAccount loanAccount = newLoanAccount().get();
+        Payment payment = newPayment().get();
+
+        loanAccount.addLumpSum(payment);
+
+        assertThat(loanAccount.getPayments()).containsExactly(payment);
     }
 }
