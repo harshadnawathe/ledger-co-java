@@ -6,12 +6,15 @@ public class LoanAccount {
     private final Loan loan;
     private final Payments payments;
 
-    public LoanAccount(String bank, String customer, Loan loan) {
-
+    LoanAccount(String bank, String customer, Loan loan, Payments payments) {
         this.bank = bank;
         this.customer = customer;
         this.loan = loan;
-        this.payments = new Payments(loan.emi());
+        this.payments = payments;
+    }
+
+    public LoanAccount(String bank, String customer, Loan loan) {
+        this(bank, customer, loan, new Payments(loan.emi()));
     }
 
     public String getBank() {
