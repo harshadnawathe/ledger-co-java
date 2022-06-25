@@ -42,5 +42,24 @@ class LoanAccountTest {
 
             assertThat(actual).isEqualTo(loan);
         }
+        @Test
+        void shouldContainPaymentsWithLoanEmi() {
+            Loan loan = newLoan().get();
+            LoanAccount loanAccount = newLoanAccount().withLoan(loan).get();
+
+            Payments payments = loanAccount.getPayments();
+
+            assertThat(payments.getEmi()).isEqualTo(loan.emi());
+        }
+
+        @Test
+        void shouldHaveNoLumpSumPayments() {
+            Loan loan = newLoan().get();
+            LoanAccount loanAccount = newLoanAccount().withLoan(loan).get();
+
+            Payments payments = loanAccount.getPayments();
+
+            assertThat(payments).isEmpty();
+        }
     }
 }
