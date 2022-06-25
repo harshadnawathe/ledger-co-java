@@ -14,7 +14,7 @@ public class LoanAccount {
     }
 
     public LoanAccount(String bank, String customer, Loan loan) {
-        this(bank, customer, loan, new Payments(loan.emi()));
+        this(bank, customer, loan, new Payments());
     }
 
     public String getBank() {
@@ -38,7 +38,7 @@ public class LoanAccount {
     }
 
     public Balance balance(int monthNo) {
-        final int amountPaid = payments.amountPaid(monthNo);
+        final int amountPaid = payments.amountPaid(monthNo, loan.emi());
         final int numEmiRemaining = loan.numberOfEmi(loan.totalAmount() - amountPaid);
         return new Balance(bank, customer, amountPaid, numEmiRemaining);
     }

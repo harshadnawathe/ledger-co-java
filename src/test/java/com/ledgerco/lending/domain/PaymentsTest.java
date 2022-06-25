@@ -14,18 +14,8 @@ class PaymentsTest {
     class PaymentsConstructorTest{
 
         @Test
-        void shouldContainGivenEmi() {
-            Payments payments = new Payments(80);
-
-            int emi = payments.getEmi();
-
-            assertThat(emi).isEqualTo(emi);
-        }
-
-
-        @Test
         void shouldNotContainAnyPayment() {
-            Payments payments = new Payments(80);
+            Payments payments = new Payments();
 
             int size = payments.size();
 
@@ -39,7 +29,7 @@ class PaymentsTest {
 
         @Test
         void shouldContainTheGivenPayment() {
-            Payments payments = new Payments(50);
+            Payments payments = new Payments();
             Payment payment = newPayment().get();
 
             payments.add(payment);
@@ -53,9 +43,9 @@ class PaymentsTest {
 
         @Test
         void shouldReturnAmountPaidThroughEmi() {
-            Payments payments = new Payments(50);
+            Payments payments = new Payments();
 
-            int amountPaid = payments.amountPaid(5);
+            int amountPaid = payments.amountPaid(5, 50);
 
             assertThat(amountPaid).isEqualTo(250);
         }
@@ -64,10 +54,10 @@ class PaymentsTest {
         void shouldIncludePrepaymentsWhenApplicable() {
             Payment paymentApplicable = newPayment().withAmount(100).withPaidAfter(2).get();
 
-            Payments payments = new Payments(50);
+            Payments payments = new Payments();
             payments.add(paymentApplicable);
 
-            int amountPaid = payments.amountPaid(5);
+            int amountPaid = payments.amountPaid(5, 50);
 
             assertThat(amountPaid).isEqualTo(350);
         }
@@ -76,10 +66,10 @@ class PaymentsTest {
         void shouldNotIncludePrepaymentsWhenNotApplicable() {
             Payment paymentNotApplicable = newPayment().withAmount(100).withPaidAfter(7).get();
 
-            Payments payments = new Payments(50);
+            Payments payments = new Payments();
             payments.add(paymentNotApplicable);
 
-            int amountPaid = payments.amountPaid(5);
+            int amountPaid = payments.amountPaid(5, 50);
 
             assertThat(amountPaid).isEqualTo(250);
         }
