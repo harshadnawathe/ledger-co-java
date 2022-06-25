@@ -36,4 +36,10 @@ public class LoanAccount {
     public void addLumpSum(Payment payment) {
         payments.add(payment);
     }
+
+    public Balance balance(int monthNo) {
+        final int amountPaid = payments.amountPaid(monthNo);
+        final int numEmiRemaining = loan.numberOfEmi(loan.totalAmount() - amountPaid);
+        return new Balance(bank, customer, amountPaid, numEmiRemaining);
+    }
 }

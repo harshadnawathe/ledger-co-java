@@ -43,6 +43,7 @@ class LoanAccountTest {
 
             assertThat(actual).isEqualTo(loan);
         }
+
         @Test
         void shouldContainPaymentsWithLoanEmi() {
             Loan loan = newLoan().get();
@@ -72,5 +73,70 @@ class LoanAccountTest {
         loanAccount.addLumpSum(payment);
 
         assertThat(loanAccount.getPayments()).containsExactly(payment);
+    }
+
+    @Nested
+    class LoanAccountBalanceTest {
+
+        @Test
+        void shouldIncludeBankName() {
+            LoanAccount loanAccount = newLoanAccount().withBank("IDIDI").get();
+
+            Balance balance = loanAccount.balance(3);
+
+            assertThat(balance.getBank()).isEqualTo("IDIDI");
+        }
+
+        @Test
+        void shouldIncludeCustomerName() {
+            LoanAccount loanAccount = newLoanAccount().withCustomer("Dale").get();
+
+            Balance balance = loanAccount.balance(3);
+
+            assertThat(balance.getCustomer()).isEqualTo("Dale");
+        }
+
+        @Test
+        void shouldIncludeAmountPaid() {
+            LoanAccount loanAccount = newLoanAccount().withLoan(
+                    newLoan()
+                            .withPrincipal(5000)
+                            .withPeriodInYears(1)
+                            .withLoanRate(6)
+                            .get()
+            ).get();
+
+            Balance balance = loanAccount.balance(3);
+
+            assertThat(balance.getAmountPaid()).isEqualTo(1326);
+        }
+
+        @Test
+        void shouldIncludeNumEmiRemaining() {
+            LoanAccount loanAccount = newLoanAccount().withLoan(
+                    newLoan()
+                            .withPrincipal(5000)
+                            .withPeriodInYears(1)
+                            .withLoanRate(6)
+                            .get()
+            ).get();
+
+            Balance balance = loanAccount.balance(3);
+
+            assertThat(balance.getNumEmiRemaining()).isEqualTo(9);
+        }
+
+        private LoanAccount loanAccount() {
+            return newLoanAccount()
+                    .withBank("IDIDI")
+                    .withCustomer("Dale")
+                    .withLoan(
+                            newLoan()
+                                    .withPrincipal(5000)
+                                    .withPeriodInYears(1)
+                                    .withLoanRate(6)
+                                    .get())
+                    .get();
+        }
     }
 }
