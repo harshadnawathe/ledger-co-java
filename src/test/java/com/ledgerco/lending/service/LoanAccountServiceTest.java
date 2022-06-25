@@ -10,7 +10,6 @@ import com.ledgerco.lending.service.model.LoanAccountResponse;
 import com.ledgerco.lending.service.model.LoanSpec;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static com.ledgerco.lending.util.BalanceBuilder.newBalance;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,23 +24,6 @@ class LoanAccountServiceTest {
             .get();
 
     private final LoanAccountResponse expectedResponse = LoanAccountResponse.of(balance);
-    private final Ledger ledger = new Ledger() {
-        @Override
-        public LoanAccount save(LoanAccount account) {
-            return fakeAccount();
-        }
-
-        @Override
-        public LoanAccount findByBankAndCustomer(String bank, String customer) {
-            return fakeAccount();
-        }
-
-        private LoanAccount fakeAccount() {
-            LoanAccount account = Mockito.mock(LoanAccount.class);
-            Mockito.when(account.balance(MONTH)).thenReturn(balance);
-            return account;
-        }
-    };
 
     @Nested
     class LoanAccountServiceConstructorTest {
@@ -76,7 +58,7 @@ class LoanAccountServiceTest {
 
         @Test
         void shouldReturnTheLoanAccountResponse() {
-            LoanAccountService service = new LoanAccountService(ledger);
+            LoanAccountService service = new LoanAccountService(new InMemoryLedger());
             CreateLoanAccountRequest request = createLoanAccountRequest();
 
             LoanAccountResponse response = service.createLoanAccount(request);
