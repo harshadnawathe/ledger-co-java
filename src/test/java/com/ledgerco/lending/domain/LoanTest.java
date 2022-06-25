@@ -1,5 +1,6 @@
 package com.ledgerco.lending.domain;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,19 @@ public class LoanTest {
             int numberOfEmi = loan.numberOfEmi(1036);
 
             assertThat(numberOfEmi).isEqualTo(12);
+        }
+
+        @Test
+        void shouldReturnZeroWhenAmountRemainingIsNotPositive() {
+           Loan loan = newLoan().withPrincipal(2000)
+                    .withPeriodInYears(2)
+                    .withLoanRate(2)
+                    .get();
+            double amountRemaining = -RandomUtils.nextDouble(0, 1036);
+
+            int numberOfEmi = loan.numberOfEmi(amountRemaining);
+
+            assertThat(numberOfEmi).isEqualTo(0);
         }
     }
 }

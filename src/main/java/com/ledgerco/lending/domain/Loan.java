@@ -40,6 +40,9 @@ public class Loan {
     }
 
     public int numberOfEmi(double amountRemaining) {
+        if (amountRemaining <= 0) {
+            return 0;
+        }
         return (int) Math.ceil(amountRemaining / emi());
     }
 }
