@@ -1,4 +1,4 @@
-package com.ledgerco.lending.domain.util;
+package com.ledgerco.lending.util;
 
 import com.ledgerco.lending.domain.Balance;
 import org.apache.commons.lang3.RandomStringUtils;

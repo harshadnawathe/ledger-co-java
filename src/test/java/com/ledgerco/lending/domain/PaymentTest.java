@@ -3,7 +3,7 @@ package com.ledgerco.lending.domain;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.ledgerco.lending.domain.util.PaymentBuilder.newPayment;
+import static com.ledgerco.lending.util.PaymentBuilder.newPayment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PaymentTest {

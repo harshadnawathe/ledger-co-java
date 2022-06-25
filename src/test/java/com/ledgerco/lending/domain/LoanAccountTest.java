@@ -4,9 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.ledgerco.lending.domain.util.LoanAccountBuilder.newLoanAccount;
-import static com.ledgerco.lending.domain.util.LoanBuilder.newLoan;
-import static com.ledgerco.lending.domain.util.PaymentBuilder.newPayment;
+import static com.ledgerco.lending.util.LoanAccountBuilder.newLoanAccount;
+import static com.ledgerco.lending.util.LoanBuilder.newLoan;
+import static com.ledgerco.lending.util.PaymentBuilder.newPayment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("a loanAccount object")

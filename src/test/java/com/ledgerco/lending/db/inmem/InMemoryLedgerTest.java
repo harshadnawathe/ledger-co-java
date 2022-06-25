@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ledgerco.lending.domain.util.LoanAccountBuilder.newLoanAccount;
+import static com.ledgerco.lending.util.LoanAccountBuilder.newLoanAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class InMemoryLedgerTest {

@@ -4,7 +4,7 @@ import com.ledgerco.lending.domain.Balance;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.ledgerco.lending.domain.util.BalanceBuilder.newBalance;
+import static com.ledgerco.lending.util.BalanceBuilder.newBalance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LoanAccountResponseTest {
