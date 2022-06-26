@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static com.ledgerco.lending.util.LoanAccountBuilder.newLoanAccount;
 import static com.ledgerco.lending.util.LoanBuilder.newLoan;
 import static com.ledgerco.lending.util.PaymentBuilder.newPayment;
@@ -49,7 +51,7 @@ class LoanAccountTest {
             Loan loan = newLoan().get();
             LoanAccount loanAccount = newLoanAccount().withLoan(loan).get();
 
-            Payments payments = loanAccount.getPayments();
+            List<Payment> payments = loanAccount.getPayments();
 
             assertThat(payments).isEmpty();
         }
@@ -116,17 +118,5 @@ class LoanAccountTest {
             assertThat(balance.getNumEmiRemaining()).isEqualTo(9);
         }
 
-        private LoanAccount loanAccount() {
-            return newLoanAccount()
-                    .withBank("IDIDI")
-                    .withCustomer("Dale")
-                    .withLoan(
-                            newLoan()
-                                    .withPrincipal(5000)
-                                    .withPeriodInYears(1)
-                                    .withLoanRate(6)
-                                    .get())
-                    .get();
-        }
     }
 }

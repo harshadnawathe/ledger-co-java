@@ -1,5 +1,9 @@
 package com.ledgerco.lending.domain;
 
+import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
+
 public class LoanAccount {
     private final String bank;
     private final String customer;
@@ -29,8 +33,8 @@ public class LoanAccount {
         return loan;
     }
 
-    public Payments getPayments() {
-        return payments;
+    public List<Payment> getPayments() {
+        return unmodifiableList(payments);
     }
 
     public void addLumpSum(Payment payment) {
