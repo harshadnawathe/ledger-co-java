@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import static com.ledgerco.lending.util.LoanAccountBuilder.newLoanAccount;
 import static com.ledgerco.lending.util.LoanBuilder.newLoan;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class LoanAccountServiceTest {
@@ -62,7 +63,7 @@ class LoanAccountServiceTest {
     class LoanAccountServiceMakePaymentTest {
 
         @Test
-        void shouldAddThePaymentToLoanAccountAndStoreItInLedger() {
+        void shouldAddThePaymentToLoanAccountAndStoreItInLedger() throws Exception {
             InMemoryLedger ledger = new InMemoryLedger();
             ledger.save(loanAccount());
             LoanAccountService service = new LoanAccountService(ledger);
@@ -82,7 +83,7 @@ class LoanAccountServiceTest {
         }
 
         @Test
-        void shouldReturnTheLoanAccountResponse() {
+        void shouldReturnTheLoanAccountResponse() throws Exception {
             InMemoryLedger ledger = new InMemoryLedger();
             ledger.save(loanAccount());
             LoanAccountService service = new LoanAccountService(ledger);
@@ -93,13 +94,24 @@ class LoanAccountServiceTest {
 
             assertThat(response).isEqualTo(expectedResponse);
         }
+
+        @Test
+        void shouldThrowExceptionWhenLoanAccountIsNotFound() {
+            LoanAccountService service = new LoanAccountService(new InMemoryLedger());
+            MakePaymentRequest request = new MakePaymentRequest(new AccountSpec("Unknown", "Unknown"), null);
+
+            assertThatThrownBy(
+                    () -> service.makePayment(request)
+            ).isInstanceOf(LoanAccountNotFoundException.class)
+                    .hasMessage("Account with bank: Unknown and customer: Unknown, not found");
+        }
     }
 
     @Nested
     class LoanAccountServiceCheckBalanceTest {
 
         @Test
-        void shouldReturnTheLoanAccountResponse() {
+        void shouldReturnTheLoanAccountResponse() throws Exception {
             InMemoryLedger ledger = new InMemoryLedger();
             ledger.save(loanAccount());
             LoanAccountService service = new LoanAccountService(ledger);
@@ -112,7 +124,7 @@ class LoanAccountServiceTest {
         }
 
         @Test
-        void shouldNotModifyLedger() {
+        void shouldNotModifyLedger() throws Exception {
             InMemoryLedger ledger = new InMemoryLedger();
             ledger.save(loanAccount());
             UnmodifiableLedger unmodifiableLedger = new UnmodifiableLedger(ledger);
@@ -124,6 +136,17 @@ class LoanAccountServiceTest {
             } catch (UnmodifiableLedger.ModificationNotAllowedException e) {
                 fail();
             }
+        }
+
+        @Test
+        void shouldThrowExceptionWhenLoanAccountIsNotFound() {
+            LoanAccountService service = new LoanAccountService(new InMemoryLedger());
+            CheckBalanceRequest request = new CheckBalanceRequest(new AccountSpec("Unknown", "Unknown"), 0);
+
+            assertThatThrownBy(
+                    () -> service.checkBalance(request)
+            ).isInstanceOf(LoanAccountNotFoundException.class)
+                    .hasMessage("Account with bank: Unknown and customer: Unknown, not found");
         }
     }
 

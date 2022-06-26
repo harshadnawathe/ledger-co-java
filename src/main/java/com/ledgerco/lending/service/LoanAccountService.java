@@ -23,10 +23,14 @@ public class LoanAccountService {
         return LoanAccountResponse.of(loanAccount.balance(0));
     }
 
-    public LoanAccountResponse makePayment(MakePaymentRequest request) {
+    public LoanAccountResponse makePayment(MakePaymentRequest request) throws LoanAccountNotFoundException {
         LoanAccount loanAccount = ledger.findByBankAndCustomer(
                 request.getAccount().getBank(),
                 request.getAccount().getCustomer());
+
+        if (loanAccount == null) {
+            throw new LoanAccountNotFoundException(request.getAccount());
+        }
 
         loanAccount.addLumpSum(request.getPayment().toPayment());
 
@@ -37,10 +41,14 @@ public class LoanAccountService {
         );
     }
 
-    public LoanAccountResponse checkBalance(CheckBalanceRequest request) {
+    public LoanAccountResponse checkBalance(CheckBalanceRequest request) throws LoanAccountNotFoundException {
         LoanAccount loanAccount = ledger.findByBankAndCustomer(
                 request.getAccount().getBank(),
                 request.getAccount().getCustomer());
+
+        if (loanAccount == null) {
+            throw new LoanAccountNotFoundException(request.getAccount());
+        }
 
         return LoanAccountResponse.of(
                 loanAccount.balance(request.getMonthNo())
