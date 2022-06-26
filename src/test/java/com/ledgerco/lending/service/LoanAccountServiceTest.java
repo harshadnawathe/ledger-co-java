@@ -1,6 +1,7 @@
 package com.ledgerco.lending.service;
 
 import com.ledgerco.lending.db.inmem.InMemoryLedger;
+import com.ledgerco.lending.db.inmem.UnmodifiableLedger;
 import com.ledgerco.lending.domain.Ledger;
 import com.ledgerco.lending.domain.LoanAccount;
 import com.ledgerco.lending.service.model.*;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import static com.ledgerco.lending.util.LoanAccountBuilder.newLoanAccount;
 import static com.ledgerco.lending.util.LoanBuilder.newLoan;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class LoanAccountServiceTest {
 
@@ -93,6 +95,38 @@ class LoanAccountServiceTest {
         }
     }
 
+    @Nested
+    class LoanAccountServiceCheckBalanceTest {
+
+        @Test
+        void shouldReturnTheLoanAccountResponse() {
+            InMemoryLedger ledger = new InMemoryLedger();
+            ledger.save(loanAccount());
+            LoanAccountService service = new LoanAccountService(ledger);
+            CheckBalanceRequest request = checkBalanceRequest();
+            LoanAccountResponse expectedResponse = checkBalanceResponse();
+
+            LoanAccountResponse response = service.checkBalance(request);
+
+            assertThat(response).isEqualTo(expectedResponse);
+        }
+
+        @Test
+        void shouldNotModifyLedger() {
+            InMemoryLedger ledger = new InMemoryLedger();
+            ledger.save(loanAccount());
+            UnmodifiableLedger unmodifiableLedger = new UnmodifiableLedger(ledger);
+            LoanAccountService service = new LoanAccountService(unmodifiableLedger);
+            CheckBalanceRequest request = checkBalanceRequest();
+
+            try {
+                service.checkBalance(request);
+            } catch (UnmodifiableLedger.ModificationNotAllowedException e) {
+                fail();
+            }
+        }
+    }
+
     private CreateLoanAccountRequest createLoanAccountRequest() {
         return new CreateLoanAccountRequest(
                 new AccountSpec("MBI", "Harry"),
@@ -132,6 +166,20 @@ class LoanAccountServiceTest {
         return new LoanAccountResponse(
                 new AccountSpec("MBI", "Harry"),
                 new BalanceSpec(8370, 12)
+        );
+    }
+
+    private CheckBalanceRequest checkBalanceRequest() {
+        return new CheckBalanceRequest(
+                new AccountSpec("MBI", "Harry"),
+                12
+        );
+    }
+
+    private LoanAccountResponse checkBalanceResponse() {
+        return new LoanAccountResponse(
+                new AccountSpec("MBI", "Harry"),
+                new BalanceSpec(4044, 24)
         );
     }
 }
