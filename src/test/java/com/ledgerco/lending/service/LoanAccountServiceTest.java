@@ -5,6 +5,7 @@ import com.ledgerco.lending.db.inmem.UnmodifiableLedger;
 import com.ledgerco.lending.domain.Ledger;
 import com.ledgerco.lending.domain.LoanAccount;
 import com.ledgerco.lending.service.model.*;
+import com.ledgerco.lending.util.LoanAccountAssertion;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +45,13 @@ class LoanAccountServiceTest {
             LoanAccount loanAccount = ledger.findByBankAndCustomer(
                     request.getAccount().getBank(),
                     request.getAccount().getCustomer());
-            assertThat(loanAccount).isNotNull();
+
+            LoanAccountAssertion.assertThat(loanAccount)
+                    .hasBank(request.getAccount().getBank())
+                    .hasCustomer(request.getAccount().getCustomer())
+                    .hasLoanWithPrincipal(request.getLoan().getPrincipal())
+                    .hasLoanWithPeriodInYears(request.getLoan().getPeriodInYears())
+                    .hasLoanWithLoanRate(request.getLoan().getLoanRate());
         }
 
         @Test
@@ -75,11 +82,10 @@ class LoanAccountServiceTest {
                     request.getAccount().getBank(),
                     request.getAccount().getCustomer());
 
-            assertThat(loanAccount.getPayments())
-                    .allMatch(
-                            payment -> payment.getAmount() == request.getPayment().getAmount() &&
-                                    payment.getPaidAfter() == request.getPayment().getPaidAfter()
-                    );
+            LoanAccountAssertion.assertThat(loanAccount).containsPaymentMatching(
+                    payment -> payment.getAmount() == request.getPayment().getAmount() &&
+                            payment.getPaidAfter() == request.getPayment().getPaidAfter()
+            );
         }
 
         @Test
