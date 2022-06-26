@@ -1,4 +1,4 @@
-package com.ledgerco.lending.app;
+package com.ledgerco.lending.app.cmd;
 
 import java.util.List;
 
