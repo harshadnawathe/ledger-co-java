@@ -27,13 +27,37 @@ in the build.gradle if your main class has changed.
 
  # Running the code for multiple test cases
 
- Please fill `input1.txt` and `input2.txt` with the input commands and use those files in `run.bat` or `run.sh`. Replace `java -jar build/libs/geektrust.jar sample_input/input1.txt` with `java -jar build/libs/geektrust.jar sample_input/input2.txt` to run the test case from the second file. 
+Please fill `input1.txt` and `input2.txt` with the input commands and use those files in `run.bat` or `run.sh`.
+Replace `java -jar build/libs/geektrust.jar sample_input/input1.txt`
+with `java -jar build/libs/geektrust.jar sample_input/input2.txt` to run the test case from the second file.
 
- # How to execute the unit tests
+# How to execute the unit tests
 
- `gradle clean test --no-daemon` will execute the unit test cases.
+`gradle clean test --no-daemon` will execute the unit test cases.
 
 # Help
 
 You can refer our help documents [here](https://help.geektrust.com)
 You can read build instructions [here](https://github.com/geektrust/coding-problem-artefacts/tree/master/Java)
+
+# Project Organization
+
+The code is organized in following packages.
+
+### `com.ledgerco.lending.app`
+
+This package implements the logic to parse the input file and to invoke the corresponding application services.
+
+### `com.ledgerco.lending.db.inmem`
+
+This package implements an in memory ledger that is used in the application.
+
+### `com.ledgerco.lending.domain`
+
+This package implements the core business logic and holds aggregates.
+
+### `com.ledgerco.lending.service`
+
+This package implements application services such as create loan account, make payment and check balance.
+
+
