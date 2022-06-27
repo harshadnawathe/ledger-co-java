@@ -1,33 +1,23 @@
 package com.ledgerco.lending.app.cmd;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class CommandSwitch {
 
-    private final CommandHandler head;
+    List<CommandHandler> getHandlers() {
+        return handlers;
+    }
+
+    private final List<CommandHandler> handlers;
 
     public CommandSwitch(List<CommandHandler> handlers) {
-        head = handlers.stream().findFirst().orElse(null);
-        createLinks(handlers);
-    }
-
-    private void createLinks(List<CommandHandler> handlers) {
-        IntStream.range(0, handlers.size() - 1)
-                .forEach(i -> {
-                    CommandHandler current = handlers.get(i);
-                    CommandHandler next = handlers.get(i + 1);
-                    current.setNext(next);
-                });
-    }
-
-    CommandHandler getHead() {
-        return head;
+        this.handlers = handlers;
     }
 
     void handle(Command command) {
-        if (this.head != null) {
-            this.head.handle(command);
-        }
+        handlers.stream()
+                .filter(it -> it.canHandle(command.getType()))
+                .findFirst()
+                .ifPresent(it -> it.doHandle(command.getArguments()));
     }
 }

@@ -4,17 +4,17 @@ import com.ledgerco.lending.app.cmd.CommandHandler;
 
 import java.util.List;
 
-public class TestHandler1 extends CommandHandler {
+public class TestHandler1 implements CommandHandler {
 
     private boolean commandHandled = false;
 
     @Override
-    protected boolean canHandle(String type) {
+    public boolean canHandle(String type) {
         return type.equals("Command1");
     }
 
     @Override
-    protected void doHandle(List<String> arguments) {
+    public void doHandle(List<String> arguments) {
         commandHandled = true;
     }
 
