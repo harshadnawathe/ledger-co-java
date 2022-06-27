@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'io.freefair.lombok' version '6.5.0.2'
+    id 'io.freefair.lombok' version '3.1.4'
 }
 
 group = 'com.ledgerco'
@@ -65,7 +65,7 @@ repositories {
 dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:'5.2.0'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.2'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.23.1'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
