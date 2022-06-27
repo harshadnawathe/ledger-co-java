@@ -1,7 +1,7 @@
 package com.ledgerco.lending.app.cmd;
 
-import com.ledgerco.lending.app.cmd.handler.TestHandler1;
-import com.ledgerco.lending.app.cmd.handler.TestHandler2;
+import com.ledgerco.lending.util.handler.TestHandler1;
+import com.ledgerco.lending.util.handler.TestHandler2;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

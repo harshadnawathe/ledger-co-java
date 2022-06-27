@@ -14,10 +14,10 @@ public class CommandSwitch {
         this.handlers = handlers;
     }
 
-    void handle(Command command) {
-        handlers.stream()
-                .filter(it -> it.canHandle(command.getType()))
-                .findFirst()
-                .ifPresent(it -> it.doHandle(command.getArguments()));
-    }
+     public void handle(Command command) {
+         handlers.stream()
+                 .filter(it -> it.canHandle(command.getType()))
+                 .findFirst()
+                 .ifPresent(it -> it.doHandle(command.getArguments()));
+     }
 }
