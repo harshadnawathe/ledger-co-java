@@ -1,9 +1,9 @@
 package com.ledgerco.lending.app.cmd;
 
+import com.ledgerco.lending.app.cmd.handler.TestHandler1;
+import com.ledgerco.lending.app.cmd.handler.TestHandler2;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +40,7 @@ class CommandHandlerTest {
         void shouldNotDelegateToNextIfCurrentHandlerCanHandle() {
             TestHandler1 commandHandler = new TestHandler1();
             TestHandler2 next = new TestHandler2();
-            commandHandler.setNext(next);
+            link(commandHandler, next);
 
             commandHandler.handle(new Command("Command1", emptyList()));
 
@@ -51,7 +51,7 @@ class CommandHandlerTest {
         void shouldDelegateToNextIfCurrentHandlerCantHandle() {
             TestHandler1 commandHandler = new TestHandler1();
             TestHandler2 next = new TestHandler2();
-            commandHandler.setNext(next);
+            link(commandHandler, next);
 
             commandHandler.handle(new Command("Command2", emptyList()));
 
@@ -62,7 +62,7 @@ class CommandHandlerTest {
         void shouldNotDelegateIfCurrentHandlerCantHandle() {
             TestHandler1 commandHandler = new TestHandler1();
             TestHandler2 next = new TestHandler2();
-            commandHandler.setNext(next);
+            link(commandHandler, next);
 
             commandHandler.handle(new Command("Command2", emptyList()));
 
@@ -70,41 +70,7 @@ class CommandHandlerTest {
         }
     }
 
-    static class TestHandler1 extends CommandHandler {
-
-        private boolean commandHandled = false;
-
-        @Override
-        protected boolean canHandle(String type) {
-            return type.equals("Command1");
-        }
-
-        @Override
-        protected void doHandle(List<String> arguments) {
-            commandHandled = true;
-        }
-
-        public boolean isCommandHandled() {
-            return commandHandled;
-        }
-    }
-
-    static class TestHandler2 extends CommandHandler {
-
-        private boolean commandHandled = false;
-
-        @Override
-        protected boolean canHandle(String type) {
-            return type.equals("Command2");
-        }
-
-        @Override
-        protected void doHandle(List<String> arguments) {
-            commandHandled = true;
-        }
-
-        public boolean isCommandHandled() {
-            return commandHandled;
-        }
+    private void link(CommandHandler current, CommandHandler next) {
+        current.setNext(next);
     }
 }

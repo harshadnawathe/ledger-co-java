@@ -6,7 +6,7 @@ public abstract class CommandHandler {
 
     private CommandHandler next;
 
-    public void setNext(CommandHandler next) {
+    void setNext(CommandHandler next) {
         this.next = next;
     }
 
