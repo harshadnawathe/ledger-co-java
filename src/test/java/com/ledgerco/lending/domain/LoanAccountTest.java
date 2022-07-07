@@ -104,6 +104,21 @@ class LoanAccountTest {
         }
 
         @Test
+        void shouldClampAmountPaidToTotalAmount() {
+            LoanAccount loanAccount = newLoanAccount().withLoan(
+                    newLoan()
+                            .withPrincipal(5000)
+                            .withPeriodInYears(1)
+                            .withLoanRate(6)
+                            .get()
+            ).get();
+
+            Balance balance = loanAccount.balance(12);
+
+            assertThat(balance.getAmountPaid()).isEqualTo(5300);
+        }
+
+        @Test
         void shouldIncludeNumEmiRemaining() {
             LoanAccount loanAccount = newLoanAccount().withLoan(
                     newLoan()

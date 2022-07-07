@@ -42,8 +42,16 @@ public class LoanAccount {
     }
 
     public Balance balance(int monthNo) {
-        final int amountPaid = payments.amountPaid(monthNo, loan.emi());
+        final int amountPaid = amountPaid(monthNo);
         final int numEmiRemaining = loan.numberOfEmi(loan.totalAmount() - amountPaid);
         return new Balance(bank, customer, amountPaid, numEmiRemaining);
+    }
+
+    private int amountPaid(int monthNo) {
+        int amountPaid = payments.amountPaid(monthNo, loan.emi());
+        if (amountPaid > loan.totalAmount()) {
+            amountPaid = (int) loan.totalAmount();
+        }
+        return amountPaid;
     }
 }
